@@ -10,8 +10,8 @@
 
 Command-line version of tic-tac-toe, playable by two players
 
-Play Online at:
-https://replit.com/@xsys/Tic-Tac-Toe#
+Play Online at:`
+[https://replit.com/@xsys/Tic-Tac-Toe#](https://replit.com/@xsys/Tic-Tac-Toe#)
 
 ## Problems
 
