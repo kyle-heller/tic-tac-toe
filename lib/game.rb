@@ -2,59 +2,92 @@ require_relative 'game_board'
 require_relative 'player'
 
 class Game
-  attr_accessor :player1, :player2, :winner, :tie
+  attr_reader :player1, :player2, :winner, :game_won, :tie
 
   def initialize
-    puts "Player 1, what is your name?"
-    name = ''
-    loop do
-      name = gets.chomp
-      break if name =~ /^[a-zA-Z]+$/
-      puts "Invalid name, please enter a valid name:"
-    end
-    @player1 = Player.new(name)
-    puts "Player 2, what is your name?"
-    name = ''
-    loop do
-      name = gets.chomp
-      break if name =~ /^[a-zA-Z]+$/
-      puts "Invalid name, please enter a valid name:"
-    end
-    @player2 = Player.new(name)
+    clear_screen
+    @player1 = Player.new(get_player_name("Player 1"))
+    clear_screen
+    @player2 = Player.new(get_player_name("Player 2"))
+    clear_screen
     Player.reset_marks
-    @winner = false
+    @game_won = false
     @gameboard = GameBoard.new
-    @gameboard.display
     play
   end 
 
-  def play
-    total_moves = 0
+  private
+
+  def logo
+    puts "
+                                                                 
+
+     _______ _        _______           _______         
+    |__   __(_)      |__   __|         |__   __|        
+       | |   _  ___     | | __ _  ___     | | ___   ___ 
+       | |  | |/ __|    | |/ _  |/ __|    | |/ _ \\ / _  \\
+       | |  | | (__     | | (_| | (__     | | (_) |  __/
+       |_|  |_|\\___|    |_|\\____|\\___|    |_|\\___/ \\___|                                                            
+   "    
+  end
+
+  def clear_screen
+    system("clear") || system("cls")
+    logo
+  end
+
+  def get_player_name(player_number)
     loop do
-      selection = player1.make_move(player1)
-      @gameboard.place_mark(selection, player1.player_mark)
-      @gameboard.display
-      total_moves += 1
-      break if game_over?(total_moves)
-      selection = player2.make_move(player2)
-      @gameboard.place_mark(selection, player2.player_mark)
-      @gameboard.display
-      total_moves += 1
-      break if game_over?(total_moves)
+      puts "#{player_number}, what is your name?"
+      name = gets.chomp
+      return name if name =~ /^[a-zA-Z]+$/
+      puts "Invalid name, please enter a valid name:"
     end
   end
 
+  def make_player_move(player)
+    total_moves = 0
+    selection = player.make_move(player)
+    @gameboard.place_mark(selection, player.player_mark)
+    system("clear") || system("cls")
+    logo
+    @gameboard.display
+    total_moves += 1
+    game_over?(total_moves)
+  end
+
+
+def play
+  @gameboard.display
+  loop do
+    break if make_player_move(player1)
+    break if make_player_move(player2)
+  end
+end
+
   def game_over?(total_moves)
     if winner?(player1) || winner?(player2)
-      puts "You win!"
+      puts "#{@winner.name} wins!"
+      play_again?
       return true
     elsif tie?(total_moves)
       puts "It's a tie!"
+      play_again?
       return true
     end
     false
   end
 
+  def play_again?
+    puts "Play again? (yes/no)"
+    response = gets.chomp.downcase
+    if response == "yes" || response == "y"
+      Game.new
+      return true
+    else
+      exit
+    end
+  end
 
   def winner?(player)
 
@@ -72,7 +105,8 @@ class Game
     winning_conditions.each do |key, value|
       if 
         player.selections & value == value
-        @winner = true
+        @winner = player
+        @game_won = true
         return true
       end
     end
@@ -80,7 +114,7 @@ class Game
   end
 
   def tie?(total_moves)
-    total_moves == 9 && !@winner
+    total_moves == 9 && !@game_won
   end
 
 
