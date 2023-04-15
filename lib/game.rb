@@ -2,13 +2,13 @@ require_relative 'game_board'
 require_relative 'player'
 
 class Game
-  attr_reader :player1, :player2, :winner, :game_won, :tie
+  attr_reader :player1, :player2, :winner, :game_won, :tie, :mode
 
   def initialize
     clear_screen
     @player1 = Player.new(get_player_name("Player 1"))
     clear_screen
-    @player2 = Player.new(get_player_name("Player 2"))
+    choose_opponent_type
     clear_screen
     Player.reset_marks
     @game_won = false
@@ -28,11 +28,11 @@ class Game
        | |  | |/ __|    | |/ _  |/ __|    | |/ _ \\ / _  \\
        | |  | | (__     | | (_| | (__     | | (_) |  __/
        |_|  |_|\\___|    |_|\\____|\\___|    |_|\\___/ \\___|                                                            
-   "    
+   "
   end
 
   def clear_screen
-    system("clear") || system("cls")
+    system('clear') || system('cls')
     logo
   end
 
@@ -45,9 +45,37 @@ class Game
     end
   end
 
+
+  def choose_opponent_type
+    puts "Please select gameplay mode:
+  1 - Vs Computer
+  2 - Two-Player Mode"
+    mode = gets.chomp
+    if mode == '1'
+      @mode = 1
+    @player2 = Player.new("!Computer")
+    elsif mode == '2'
+      @mode = 2
+    @player2 = Player.new(get_player_name("Player 2"))
+    else
+      clear_screen
+      puts "Invalid selection"
+      choose_opponent_type
+    end
+  end
+
   def make_player_move(player)
     total_moves = 0
-    selection = player.make_move(player)
+    if mode == 1
+      if player.name == "!Computer"
+        sleep(1)
+        selection = player.computer_move(player)
+      else
+        selection = player.make_move(player)
+      end
+    elsif mode == 2
+      selection = player.make_move(player)
+    end
     @gameboard.place_mark(selection, player.player_mark)
     total_moves += 1
     system("clear") || system("cls")
@@ -55,7 +83,6 @@ class Game
     @gameboard.display
     game_over?(total_moves)
   end
-
 
 def play
   @gameboard.display

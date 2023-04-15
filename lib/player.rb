@@ -23,11 +23,20 @@ class Player
     end
   end
   
+  def computer_move(player)
+    selection = ([1, 2, 3, 4, 5, 6, 7, 8] - @@taken).sample.to_s
+    @selections << selection.to_i
+    @@taken << selection.to_i
+    selection
+  end
+  
   private
 
   def self.reset_marks
       @@marks = ["◯", "✕"]
       @@taken = []
   end
-
 end
+
+
+
