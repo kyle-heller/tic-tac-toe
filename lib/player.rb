@@ -1,15 +1,13 @@
 class Player
-  attr_accessor :name, :player_mark, :selections
+  attr_reader :name, :player_mark, :selections
+
   @@marks = ["◯", "✕"]
+  @@taken = []
+
   def initialize(name)
     @name = name
     @player_mark = @@marks.pop
     @selections = []
-    @@taken = []
-  end
-
-  def self.reset_marks
-      @@marks = ["◯", "✕"]
   end
 
   def make_move(player)
@@ -24,4 +22,12 @@ class Player
       make_move(player)
     end
   end
+  
+  private
+
+  def self.reset_marks
+      @@marks = ["◯", "✕"]
+      @@taken = []
+  end
+
 end
