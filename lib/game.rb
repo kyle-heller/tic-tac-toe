@@ -1,4 +1,5 @@
 require_relative 'game_board'
+require 'pry-byebug'
 require_relative 'player'
 
 class Game
@@ -49,10 +50,10 @@ class Game
     total_moves = 0
     selection = player.make_move(player)
     @gameboard.place_mark(selection, player.player_mark)
+    total_moves += 1
     system("clear") || system("cls")
     logo
     @gameboard.display
-    total_moves += 1
     game_over?(total_moves)
   end
 
@@ -90,7 +91,6 @@ end
   end
 
   def winner?(player)
-
     winning_conditions = {
       :arr1 => [1, 2, 3],
       :arr2 => [4, 5, 6],
@@ -104,7 +104,7 @@ end
    
     winning_conditions.each do |key, value|
       if 
-        player.selections & value == value
+        value & player.selections == value
         @winner = player
         @game_won = true
         return true
@@ -114,7 +114,7 @@ end
   end
 
   def tie?(total_moves)
-    total_moves == 9 && !@game_won
+    total_moves == 8 && !@game_won
   end
 
 
