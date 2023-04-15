@@ -1,3 +1,5 @@
+#Leaving for posterity. Please check out current version at Tic-Tac-Toe/lib/
+
 require 'pry-byebug'
 class Player1
 
