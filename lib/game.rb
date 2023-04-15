@@ -1,5 +1,4 @@
 require_relative 'game_board'
-require 'pry-byebug'
 require_relative 'player'
 
 class Game
@@ -91,18 +90,8 @@ end
   end
 
   def winner?(player)
-    winning_conditions = {
-      :arr1 => [1, 2, 3],
-      :arr2 => [4, 5, 6],
-      :arr3 => [7, 8, 9],
-      :arr4 => [1, 4, 7],
-      :arr5 => [2, 5, 8],
-      :arr6 => [3, 6, 9],
-      :arr7 => [1, 5, 9],
-      :arr8 => [3, 5, 7]
-    }
-   
-    winning_conditions.each do |key, value|
+
+    @gameboard.winning_conditions.each do |key, value|
       if 
         value & player.selections == value
         @winner = player
