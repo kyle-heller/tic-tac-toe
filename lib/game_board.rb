@@ -1,5 +1,6 @@
 class GameBoard
-  attr_accessor :gameboard
+  attr_reader :gameboard
+  
   DEFAULT_BOARD = "  
     ╭─────┬─────┬─────╮
     │  1  │  2  │  3  │
@@ -10,7 +11,7 @@ class GameBoard
     ╰─────┴─────┴─────╯"
 
   def initialize
-    @gameboard = DEFAULT_BOARD
+    @gameboard = DEFAULT_BOARD.dup
   end
 
   def display
@@ -20,4 +21,5 @@ class GameBoard
   def place_mark(selection, mark)
     @gameboard.sub!(selection, mark)
   end
+
 end
