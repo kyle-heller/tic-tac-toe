@@ -5,12 +5,6 @@ class Game
   attr_reader :player1, :player2, :winner, :game_won, :tie, :mode
 
   def initialize
-    clear_screen
-    @player1 = Player.new(get_player_name("Player 1"))
-    clear_screen
-    choose_opponent_type
-    clear_screen
-    Player.reset_marks
     @game_won = false
     @gameboard = GameBoard.new
     play
@@ -20,15 +14,15 @@ class Game
 
   def logo
     puts "
-                                                                 
 
-     _______ _        _______           _______         
-    |__   __(_)      |__   __|         |__   __|        
-       | |   _  ___     | | __ _  ___     | | ___   ___ 
-       | |  | |/ __|    | |/ _  |/ __|    | |/ _ \\ / _  \\
-       | |  | | (__     | | (_| | (__     | | (_) |  __/
-       |_|  |_|\\___|    |_|\\____|\\___|    |_|\\___/ \\___|                                                            
-   "
+
+    ████████╗██╗ ██████╗    ████████╗ █████╗  ██████╗    ████████╗ ██████╗ ███████╗
+    ╚══██╔══╝██║██╔════╝    ╚══██╔══╝██╔══██╗██╔════╝    ╚══██╔══╝██╔═══██╗██╔════╝
+       ██║   ██║██║            ██║   ███████║██║            ██║   ██║   ██║█████╗
+       ██║   ██║██║            ██║   ██╔══██║██║            ██║   ██║   ██║██╔══╝
+       ██║   ██║╚██████╗       ██║   ██║  ██║╚██████╗       ██║   ╚██████╔╝███████╗
+       ╚═╝   ╚═╝ ╚═════╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝       ╚═╝    ╚═════╝ ╚══════╝
+    "
   end
 
   def clear_screen
@@ -85,6 +79,12 @@ class Game
   end
 
 def play
+  clear_screen
+  @player1 = Player.new(get_player_name("Player 1"))
+  clear_screen
+  choose_opponent_type
+  clear_screen
+  Player.reset_marks
   @gameboard.display
   loop do
     break if make_player_move(player1)
