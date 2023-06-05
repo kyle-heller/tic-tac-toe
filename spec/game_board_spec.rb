@@ -26,5 +26,3 @@ subject(:board) { described_class.new }
     end
 
   end
-end
-
