@@ -8,7 +8,7 @@
 
 ```
 
-Command-line version of tic-tac-toe, playable by two players
+Command-line version of tic-tac-toe, playable by two players or vs computer
 
 Play Online at Replit:
 [https://replit.com/@xsys/Tic-Tac-Toe#](https://replit.com/@xsys/Tic-Tac-Toe#)
